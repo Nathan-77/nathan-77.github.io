@@ -2,6 +2,8 @@
 
 这是一个纯静态网站，没有任何构建工具，也没有依赖。改内容就是用编辑器打开 `.html` 文件改文字、保存，再传到 GitHub。
 
+**网站地址：** <https://zhiyuanqi.org>　**GitHub 仓库：** <https://github.com/Nathan-77/nathan-77.github.io>（`CNAME` 文件是域名设置，别删）
+
 ---
 
 ## 一、文件都是干什么的
