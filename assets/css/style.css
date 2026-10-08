@@ -1,0 +1,865 @@
+/* ============================================================
+   Zhiyuan Qi — 个人学术主页样式表
+   只有这一个 CSS 文件，所有页面共用。
+
+   【改配色】改下面 :root 里的 --accent 一行即可（整站链接、
+   强调色会一起变）。常见备选：
+     深酒红  #8c2f39   ← 当前
+     学院蓝  #2a4d69
+     墨绿    #2f5d50
+     NC State 红 #cc0000
+   ============================================================ */
+
+/* ---------- 字体（自带，不依赖 Google Fonts）----------
+   字体文件在 assets/fonts/，随站点一起上传即可。
+   自带的好处：国内打开不卡、断网也正常、不给 Google 送访客数据。
+   ---------------------------------------------------- */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/inter-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/inter-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/source-serif-4-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/source-serif-4-latin-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/source-serif-4-latin-600-normal.woff2") format("woff2");
+}
+
+:root {
+  --accent:        #8c2f39;
+  --accent-soft:   #f3e9ea;
+
+  --text:          #1c1c1e;
+  --text-muted:    #5f6368;
+  --text-faint:    #8a8f98;
+  --bg:            #ffffff;
+  --bg-soft:       #fafaf9;
+  --rule:          #e3e2e0;
+  --rule-strong:   #c9c7c4;
+
+  --serif:  "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono:   ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --measure: 44rem;   /* 正文栏宽 */
+
+  /* 顶部大图的上下取景：0% = 显示照片最上面，100% = 最下面 */
+  --hero-y:      38%;   /* 首页 */
+  --hero-slim-y: 24%;   /* 其他页面的窄条 */
+}
+
+/* 深色模式：跟随系统设置自动切换，无需按钮 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent:      #d98b93;
+    --accent-soft: #2a1f21;
+
+    --text:        #e8e6e3;
+    --text-muted:  #a8a5a0;
+    --text-faint:  #7b7873;
+    --bg:          #16161a;
+    --bg-soft:     #1d1d21;
+    --rule:        #2e2e33;
+    --rule-strong: #45454b;
+    color-scheme: dark;
+  }
+}
+
+/* ---------- 基础 ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  /* 内容少的页面（比如 Teaching）也让页脚贴在窗口底部 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16.5px;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* .wrap 只管左右留白；上下留白交给各个区块自己定，互不覆盖 */
+.wrap {
+  width: 100%;
+  max-width: var(--measure);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .15s ease, color .15s ease;
+}
+a:hover { border-bottom-color: currentColor; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.hero :focus-visible { outline-color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+[hidden] { display: none !important; }
+
+p { margin: 0 0 1.05em; }
+strong { font-weight: 600; }
+
+code {
+  font-family: var(--mono);
+  font-size: .88em;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: .05em .35em;
+}
+
+/* ============================================================
+   HERO —— 整幅照片banner
+   首页用 .hero（高），内页用 .hero.hero--slim（矮），
+   所有页面用同一张 assets/img/hero.jpg。
+   换照片：用新照片覆盖 assets/img/hero.jpg（文件名不变）。
+   取景偏上还是偏下：改上面 :root 里的 --hero-y / --hero-slim-y。
+   ============================================================ */
+
+.hero {
+  position: relative;
+  height: 62vh;
+  min-height: 380px;
+  max-height: 560px;
+  overflow: hidden;
+  background: #2b2c30;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero--slim {
+  height: 30vh;
+  min-height: 190px;
+  max-height: 260px;
+}
+
+/* 叠放的照片层，用于淡入淡出轮播 */
+.hero-media { position: absolute; inset: 0; }
+.hero-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center var(--hero-y);
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out;
+}
+.hero-media img.is-active { opacity: 1; }
+/* 窄条只截照片的一条，位置见 --hero-slim-y */
+.hero--slim .hero-media img { object-position: center var(--hero-slim-y); }
+/* 关掉 JS 也能看到第一张 */
+.hero-media img:first-child { opacity: 1; }
+.hero-media.js-ready img:first-child { opacity: 0; }
+.hero-media.js-ready img.is-active { opacity: 1; }
+
+/* 压在照片上的深色渐变，保证白字在任何照片上都读得清 */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, .34) 0%,
+    rgba(0, 0, 0, .06) 34%,
+    rgba(0, 0, 0, .40) 74%,
+    rgba(0, 0, 0, .66) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-bottom: 2.1rem;
+  color: #fff;
+}
+.hero--slim .hero-inner { padding-bottom: 1.4rem; }
+
+.site-title {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  margin: 0 0 .35rem;
+  text-shadow: 0 2px 22px rgba(0, 0, 0, .45);
+}
+.site-title a { color: #fff; border: 0; }
+.site-title a:hover { color: #fff; opacity: .85; }
+.hero--slim .site-title { font-size: 1.9rem; margin-bottom: .15rem; }
+
+.site-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: .01em;
+  color: rgba(255, 255, 255, .93);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, .5);
+}
+.hero--slim .site-subtitle { font-size: .9rem; }
+
+/* 右下角的照片署名 */
+.hero-credit {
+  position: absolute;
+  right: 1.5rem;
+  bottom: .85rem;
+  z-index: 2;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: rgba(255, 255, 255, .62);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+}
+
+/* ---------- 导航 ---------- */
+
+.navbar {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav a {
+  display: inline-block;
+  padding: .95rem 0 .8rem;
+  color: var(--text-muted);
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+}
+.nav a:hover { color: var(--text); }
+.nav a.active { color: var(--text); border-bottom-color: var(--accent); }
+
+/* ---------- 主体 ---------- */
+
+main { padding-top: 3rem; padding-bottom: 4rem; flex: 1 0 auto; }
+.hero, .navbar, .site-footer { flex: none; }
+
+h1.page-title {
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 2rem;
+  letter-spacing: -0.01em;
+}
+
+.section { margin: 0 0 3.2rem; }
+
+.section > h2 {
+  font-family: var(--sans);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 1.2rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+h3 {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 .3rem;
+}
+
+/* ---------- 首页：头像 + 简介 ---------- */
+
+.intro {
+  display: flex;
+  gap: 2.2rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+.intro-text { flex: 1 1 auto; min-width: 0; }
+.intro-text p:last-child { margin-bottom: 0; }
+
+.portrait {
+  flex: 0 0 190px;
+  width: 190px;
+}
+.portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 3px;
+  background: var(--bg-soft);
+}
+.portrait .caption {
+  margin-top: .7rem;
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.portrait .caption a { word-break: break-word; }
+
+/* 关键词条 */
+.keywords {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.keywords li {
+  font-size: .84rem;
+  color: var(--text-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  padding: .2rem .8rem;
+}
+
+/* 首页简介里的小标题（Research Interests / Contact）和联系方式 */
+.intro-text .lead { font-size: 1.08rem; margin-bottom: 1.9rem; }
+.intro-text .label {
+  font-family: var(--sans);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 .8rem;
+  padding-bottom: .45rem;
+  border-bottom: 1px solid var(--rule);
+}
+.intro-text .keywords { margin-bottom: 1.9rem; }
+.intro-text .contact { font-size: .95rem; line-height: 1.65; color: var(--text-muted); }
+
+/* ---------- News ---------- */
+
+.news { margin: 0; padding: 0; list-style: none; }
+.news li {
+  display: flex;
+  gap: 1.1rem;
+  padding: .55rem 0;
+  border-bottom: 1px dotted var(--rule);
+  font-size: .95rem;
+}
+.news li:last-child { border-bottom: 0; }
+.news .date {
+  flex: 0 0 5.6rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  font-size: .87rem;
+  padding-top: .1rem;
+}
+
+/* ---------- 论文条目 ---------- */
+
+.paper {
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.paper:last-child { border-bottom: 0; }
+
+/* 论文标题做成链接时：保持正文颜色，用一条细下划线提示可以点 */
+.paper h3 a {
+  color: inherit;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.paper h3 a:hover {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+}
+
+.paper .authors {
+  font-size: .92rem;
+  color: var(--text-muted);
+  margin: 0 0 .25rem;
+}
+.paper .authors .me { color: var(--text); font-weight: 600; }
+
+.paper .venue {
+  font-size: .92rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.paper .venue em { font-style: italic; }
+
+.paper .status {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 3px;
+  padding: .12rem .5rem;
+  vertical-align: 3px;
+  margin-left: .1rem;
+}
+
+.paper-links {
+  margin-top: .55rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: .87rem;
+}
+
+/* 摘要折叠（纯 HTML，无 JS） */
+details.abstract { margin-top: .55rem; }
+details.abstract > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .87rem;
+  color: var(--accent);
+  user-select: none;
+}
+details.abstract > summary::-webkit-details-marker { display: none; }
+details.abstract > summary::before {
+  content: "▸";
+  font-size: .8em;
+  transition: transform .15s ease;
+}
+details.abstract[open] > summary::before { transform: rotate(90deg); }
+details.abstract > summary:hover { text-decoration: underline; }
+details.abstract .abstract-body {
+  margin-top: .7rem;
+  padding: .9rem 1.1rem;
+  background: var(--bg-soft);
+  border-left: 2px solid var(--rule-strong);
+  font-size: .93rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+details.abstract .abstract-body p:last-child { margin-bottom: 0; }
+
+/* 待补充的占位条目 */
+.paper.placeholder {
+  border: 1px dashed var(--rule-strong);
+  border-radius: 4px;
+  padding: 1.1rem 1.2rem;
+  margin: 1.15rem 0;
+  background: var(--bg-soft);
+}
+.paper.placeholder h3 { color: var(--text-faint); font-style: italic; }
+.paper.placeholder .hint {
+  font-size: .87rem;
+  color: var(--text-faint);
+  margin: .4rem 0 0;
+}
+
+/* ---------- CV / 履历条目 ---------- */
+
+.entry {
+  display: flex;
+  gap: 1.5rem;
+  padding: .95rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.entry:last-child { border-bottom: 0; }
+.entry .when {
+  flex: 0 0 7.5rem;
+  font-size: .87rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  padding-top: .18rem;
+}
+.entry .what { flex: 1 1 auto; min-width: 0; }
+.entry .what h3 { font-size: 1.03rem; margin-bottom: .12rem; }
+.entry .what .sub {
+  font-size: .92rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.entry .what ul {
+  margin: .5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: .93rem;
+  color: var(--text-muted);
+}
+.entry .what li { margin-bottom: .28rem; }
+
+/* 待填写的条目（比如这学期的课）：虚线框，填完删掉 placeholder 就恢复正常 */
+.entry.placeholder {
+  border: 1px dashed var(--rule-strong);
+  border-radius: 4px;
+  padding: .95rem 1.1rem;
+  margin: .4rem 0 .8rem;
+  background: var(--bg-soft);
+}
+.entry.placeholder h3 { color: var(--text-faint); font-style: italic; }
+.entry.placeholder .hint {
+  font-size: .87rem;
+  color: var(--text-faint);
+  margin: .5rem 0 0;
+}
+
+/* 下载按钮 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1.1rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
+}
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ============================================================
+   PERSONAL 页 + MY WORKS 相册页（works.html）
+   ============================================================ */
+
+.personal-intro {
+  max-width: 36rem;
+  margin-bottom: 2.4rem;
+}
+
+/* Personal 页上的 "My Works" 入口卡片 */
+.works-card {
+  display: block;
+  max-width: 36rem;
+  padding: .6rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color .15s ease, box-shadow .2s ease;
+}
+.works-card:hover {
+  border-color: var(--rule-strong);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .08);
+}
+.works-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .4rem;
+}
+.works-strip img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 3px;
+  background: var(--bg-soft);
+}
+.works-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .2rem 1rem;
+  padding: .8rem .3rem .2rem;
+}
+.works-title {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.works-card:hover .works-title { color: var(--accent); }
+.works-arrow {
+  font-size: 1.15rem;
+  color: var(--text-faint);
+  transition: transform .15s ease, color .15s ease;
+}
+.works-card:hover .works-arrow { color: var(--accent); transform: translateX(3px); }
+
+/* works.html 顶部 */
+.crumb { margin: 0 0 1.2rem; font-size: .86rem; }
+.crumb a { color: var(--text-muted); }
+.crumb a:hover { color: var(--accent); }
+.page-title + .works-lede { margin-top: -1.3rem; }
+.works-lede { color: var(--text-muted); margin-bottom: 2.2rem; }
+
+/* 相册目录：每个地点一张封面卡片（由 assets/js/gallery.js 自动生成） */
+.album-index {
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.7rem 1.1rem;
+}
+.js .album-index { display: grid; }
+.album-card { display: block; color: var(--text); border: 0; }
+.album-cover {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--bg-soft);
+}
+.album-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+.album-card:hover .album-cover img { transform: scale(1.04); }
+.album-name {
+  display: block;
+  margin-top: .6rem;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.album-card:hover .album-name { color: var(--accent); }
+.album-meta {
+  display: block;
+  margin-top: .1rem;
+  font-size: .8rem;
+  color: var(--text-faint);
+}
+
+/* 单个地点的相册。没有 JS 时全部依次展开；有 JS 时只显示点开的那一个 */
+.album + .album { margin-top: 3rem; }
+.js .album { display: none; }
+.js .album.is-open { display: block; }
+.js .album + .album { margin-top: 0; }   /* 同时只显示一个，不需要间距 */
+.album-title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 .2rem;
+}
+.album-note, .album-count { margin: 0; font-size: .9rem; color: var(--text-muted); }
+
+/* 照片按原比例排成两列（竖图不会被裁掉） */
+.gallery {
+  columns: var(--cols, 2);
+  column-gap: .8rem;
+  margin-top: 1.4rem;
+}
+.gallery figure { margin: 0 0 .8rem; break-inside: avoid; }
+.gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+  background: var(--bg-soft);
+  cursor: zoom-in;
+  transition: opacity .15s ease;
+}
+.gallery img:hover { opacity: .88; }
+.gallery figcaption {
+  margin-top: .4rem;
+  font-size: .84rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* 点开放大：左右箭头 / 键盘方向键 / 手机左右滑 切换，Esc 关闭 */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 3.2rem 4.4rem;
+  background: rgba(12, 12, 14, .94);
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 3px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .5);
+}
+.lb-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0 0 .2rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(255, 255, 255, .8);
+  font: 400 2.2rem/1 var(--sans);
+  cursor: pointer;
+}
+.lb-btn:hover { color: #fff; background: rgba(255, 255, 255, .1); }
+.lb-close { top: .7rem; right: .8rem; font-size: 1.9rem; }
+.lb-prev { left: .7rem; top: 50%; transform: translateY(-50%); }
+.lb-next { right: .7rem; top: 50%; transform: translateY(-50%); }
+.lb-count {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1rem;
+  margin: 0;
+  text-align: center;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, .62);
+}
+#lightbox :focus-visible { outline-color: #fff; }
+
+@media (max-width: 640px) {
+  .album-index { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.3rem .8rem; }
+  .gallery { column-gap: .5rem; }
+  .gallery figure { margin-bottom: .5rem; }
+  #lightbox { padding: 3.6rem .5rem 4.4rem; }
+  .lb-prev, .lb-next { top: auto; bottom: .6rem; transform: none; }
+  .lb-prev { left: 1rem; }
+  .lb-next { right: 1rem; }
+  .lb-count { bottom: 1.5rem; }
+}
+
+/* ---------- 提示框（给你自己看的，交付前删掉即可） ---------- */
+
+.todo-note {
+  margin: 0 0 2.4rem;
+  padding: .85rem 1.1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 4px 4px 0;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.todo-note strong { color: var(--text); }
+.todo-note p:last-child { margin-bottom: 0; }
+
+/* ---------- 页脚 ---------- */
+
+.site-footer {
+  position: relative;
+  padding-top: 1.6rem;
+  padding-bottom: 3rem;
+  font-size: .85rem;
+  color: var(--text-faint);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.2rem;
+  justify-content: space-between;
+}
+/* 页脚上方那条细线，和正文左右对齐 */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- 窄屏 ---------- */
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+
+  .hero { height: 46vh; min-height: 300px; }
+  .hero--slim { height: 22vh; min-height: 150px; }
+  .site-title { font-size: 2.05rem; }
+  .hero--slim .site-title { font-size: 1.5rem; }
+  .site-subtitle { font-size: .9rem; }
+  .hero-inner { padding-bottom: 1.5rem; }
+  .hero-credit { display: none; }   /* 窄屏上会跟名字打架，直接藏掉 */
+
+  .nav { gap: .95rem; }
+  .nav a { font-size: .72rem; letter-spacing: .05em; padding: .85rem 0 .7rem; }
+  main { padding-top: 2.2rem; padding-bottom: 3rem; }
+
+  .intro {
+    flex-direction: column-reverse;
+    gap: 1.6rem;
+  }
+  .portrait { flex-basis: auto; width: 150px; }
+
+  .entry { flex-direction: column; gap: .3rem; }
+  .entry .when { flex-basis: auto; }
+  .news li { flex-direction: column; gap: .1rem; }
+  .news .date { flex-basis: auto; }
+}
+
+/* ---------- 打印 ---------- */
+
+@media print {
+  .nav, .site-footer, .todo-note, .btn, #lightbox { display: none !important; }
+  body { font-size: 11pt; color: #000; background: #fff; }
+  a { color: #000; }
+}

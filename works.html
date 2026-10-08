@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Works &middot; Zhiyuan Qi</title>
+<meta name="description" content="Photographs by Zhiyuan Qi, sorted by place, and a few of his paintings.">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='Georgia,serif'>Q</text></svg>">
+<script>
+  /* 先把相册收起来，等 gallery.js 生成目录；万一 4 秒内没加载成功，就全部展开显示 */
+  document.documentElement.className += ' js';
+  setTimeout(function () {
+    if (!window.galleryReady) document.documentElement.className =
+      document.documentElement.className.replace(/(^|\s)js(?!\S)/, '');
+  }, 4000);
+</script>
+</head>
+<body>
+
+<header class="hero hero--slim">
+  <div class="hero-media">
+    <img src="assets/img/hero.jpg" alt="">
+  </div>
+  <div class="hero-inner wrap">
+    <h1 class="site-title"><a href="index.html">Zhiyuan Qi</a></h1>
+    <p class="site-subtitle">PhD Student in Economics &middot; North Carolina State University</p>
+  </div>
+</header>
+
+<nav class="navbar">
+  <div class="wrap">
+    <ul class="nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="teaching.html">Teaching</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="personal.html" class="active">Personal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div id="works-intro">
+    <p class="crumb"><a href="personal.html">&larr; Personal</a></p>
+    <h1 class="page-title">My Works</h1>
+    <p class="works-lede">Photos sorted by place, with my paintings at the end.</p>
+  </div>
+
+  <!-- 相册目录：gallery.js 会按下面各个 <section> 自动生成封面卡片，这里留空 -->
+  <div class="album-index" id="album-index"></div>
+
+  <!-- ============================================================
+       相册：一个地点 = 一个 <section class="album">…</section>
+       · 页面上的顺序 = 这里的先后顺序（整段剪切粘贴就能调换）
+       · 改地点名：改 <h2 class="album-title"> 里的文字
+       · 加照片：照片压小后放进 assets/photos/对应文件夹/，
+         再复制一行 <figure>…</figure>，把文件名改掉
+         （width / height 可以不写）
+       · 加地点：在 assets/photos/ 里建新文件夹（英文小写，比如 kyoto），
+         复制一整段 <section>，把 id 和路径都改成新文件夹名
+       · 封面：默认用第一张；想换就改 data-cover="…" 那个路径
+       · 想给照片加一句说明：在 <img …> 后面加 <figcaption>说明</figcaption>
+       ============================================================ -->
+
+  <section class="album" id="research-triangle">
+    <h2 class="album-title">Research Triangle, NC</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/research-triangle/01.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/research-triangle/02.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/research-triangle/03.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/research-triangle/04.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="wilmington" data-cover="assets/photos/wilmington/03.jpg">
+    <h2 class="album-title">Wilmington, NC</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/wilmington/01.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/wilmington/02.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/wilmington/03.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/wilmington/04.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="outer-banks" data-cover="assets/photos/outer-banks/02.jpg">
+    <h2 class="album-title">Outer Banks, NC</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/outer-banks/01.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/outer-banks/02.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/outer-banks/03.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="washington-dc" data-cover="assets/photos/washington-dc/04.jpg">
+    <h2 class="album-title">Washington, D.C.</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/washington-dc/01.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/washington-dc/02.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/washington-dc/03.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/washington-dc/04.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/washington-dc/05.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="shenandoah" data-cover="assets/photos/shenandoah/03.jpg">
+    <h2 class="album-title">Shenandoah, VA</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/shenandoah/01.jpg" width="1920" height="1078" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/shenandoah/02.jpg" width="1920" height="1078" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/shenandoah/03.jpg" width="1920" height="1078" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/shenandoah/04.jpg" width="1920" height="1078" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="atlanta" data-cover="assets/photos/atlanta/02.jpg">
+    <h2 class="album-title">Atlanta, GA</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/atlanta/01.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/02.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/03.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/04.jpg" width="1080" height="1919" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/05.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/06.jpg" width="1080" height="1919" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/07.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/08.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/09.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/10.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/11.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/12.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/atlanta/13.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="orlando" data-cover="assets/photos/orlando/05.jpg">
+    <h2 class="album-title">Orlando, FL</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/orlando/01.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/orlando/02.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/orlando/03.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/orlando/04.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/orlando/05.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="boston">
+    <h2 class="album-title">Boston, MA</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/boston/01.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="chicago" data-cover="assets/photos/chicago/07.jpg">
+    <h2 class="album-title">Chicago, IL</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/chicago/01.jpg" width="1620" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/02.jpg" width="1620" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/03.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/04.jpg" width="1919" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/05.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/06.jpg" width="1920" height="1033" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/07.jpg" width="1620" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/08.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/09.jpg" width="1620" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/chicago/10.jpg" width="1620" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="california" data-cover="assets/photos/california/10.jpg">
+    <h2 class="album-title">California Coast</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/california/01.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/02.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/03.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/04.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/05.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/06.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/07.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/08.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/09.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/california/10.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="death-valley" data-cover="assets/photos/death-valley/05.jpg">
+    <h2 class="album-title">Death Valley, CA</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/death-valley/01.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/death-valley/02.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/death-valley/03.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/death-valley/04.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/death-valley/05.jpg" width="1920" height="1081" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/death-valley/06.jpg" width="1920" height="1080" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="my-cat" data-cover-position="center 30%">
+    <h2 class="album-title">Jin Yuanbao</h2>
+    <p class="album-note">My cat</p>
+    <div class="gallery">
+      <figure><img src="assets/photos/my-cat/01.jpg" width="1080" height="1440" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/my-cat/02.jpg" width="1080" height="1440" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="album" id="paintings" data-cover="assets/photos/paintings/02.jpg" data-cover-position="center 20%" data-unit="painting">
+    <h2 class="album-title">My Paintings</h2>
+    <div class="gallery">
+      <figure><img src="assets/photos/paintings/01.jpg" width="1080" height="1440" alt="" loading="lazy"></figure>
+      <figure><img src="assets/photos/paintings/02.jpg" width="1080" height="1440" alt="" loading="lazy"></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <span>&copy; 2026 Zhiyuan Qi</span>
+  <span><a href="mailto:zqi8@ncsu.edu">zqi8@ncsu.edu</a></span>
+</footer>
+
+<script src="assets/js/gallery.js"></script>
+
+</body>
+</html>

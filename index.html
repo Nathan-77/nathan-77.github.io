@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zhiyuan Qi</title>
+<meta name="description" content="Zhiyuan Qi — PhD student in Economics at North Carolina State University. Energy and environmental economics, industrial organization, international economics.">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='Georgia,serif'>Q</text></svg>">
+</head>
+<body>
+
+<!-- ============================================================
+     HERO 大图：assets/img/hero.jpg（photo/background 里那张）
+     所有页面顶部都用这一张。换照片：用新照片覆盖 assets/img/hero.jpg
+     （横构图，宽 2000 像素左右）。取景偏上 / 偏下在 style.css 里改 --hero-y。
+     想多张轮播：在下面多加几行 <img>，会每 7 秒自动淡入淡出。
+     ============================================================ -->
+<header class="hero">
+  <div class="hero-media" id="heroMedia">
+    <img src="assets/img/hero.jpg" alt="">
+  </div>
+
+  <div class="hero-inner wrap">
+    <h1 class="site-title">Zhiyuan Qi</h1>
+    <p class="site-subtitle">PhD Student in Economics &middot; North Carolina State University</p>
+  </div>
+
+  <!-- 右下角：照片拍摄地点 -->
+  <p class="hero-credit">Monterey coast, California</p>
+</header>
+
+<nav class="navbar">
+  <div class="wrap">
+    <ul class="nav">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="teaching.html">Teaching</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="personal.html">Personal</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="intro">
+    <div class="intro-text">
+      <!-- ▼ 首页只放三样：在哪里、研究方向、怎么联系 ▼ -->
+      <p class="lead">I am a PhD student in Economics at North Carolina State University.</p>
+
+      <h2 class="label">Research Interests</h2>
+      <!-- 加一个方向就复制一行 <li>，删一个就删掉那一行 -->
+      <ul class="keywords">
+        <li>Energy and Environmental Economics</li>
+        <li>Industrial Organization</li>
+        <li>International Economics</li>
+        <li>Renewable Energy</li>
+        <li>Electricity Markets</li>
+      </ul>
+
+      <h2 class="label">Contact</h2>
+      <p class="contact">
+        <a href="mailto:zqi8@ncsu.edu">zqi8@ncsu.edu</a><br>
+        Department of Economics, Nelson Hall<br>
+        North Carolina State University, Raleigh, NC
+      </p>
+      <!-- ▲ 首页内容结束 ▲ -->
+    </div>
+
+    <!-- 头像：assets/img/portrait.jpg（正方形最好） -->
+    <div class="portrait">
+      <img src="assets/img/portrait.jpg" alt="Zhiyuan Qi">
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <span>&copy; 2026 Zhiyuan Qi</span>
+  <span><a href="mailto:zqi8@ncsu.edu">zqi8@ncsu.edu</a></span>
+</footer>
+
+<script>
+/* Hero 轮播：有两张以上照片时每 7 秒淡入下一张；只有一张时不启用。 */
+(function () {
+  var box = document.getElementById('heroMedia');
+  if (!box) return;
+  var shots = box.querySelectorAll('img');
+  if (shots.length < 2) return;
+  /* 系统开了"减弱动态效果"就不轮播，只显示第一张 */
+  if (window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  box.classList.add('js-ready');
+  var i = 0;
+  shots[0].classList.add('is-active');
+
+  setInterval(function () {
+    shots[i].classList.remove('is-active');
+    i = (i + 1) % shots.length;
+    shots[i].classList.add('is-active');
+  }, 7000);
+})();
+</script>
+
+</body>
+</html>
